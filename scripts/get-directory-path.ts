@@ -1,5 +1,5 @@
-// Name: Get File Path (Finder)
-// Description: Return the path of the selected file
+// Name: Get Directory Path (Finder)
+// Description: Return the directory path of the selected file
 // Input: 
 // Output: 
 // Tags: 
@@ -7,7 +7,7 @@
 // Twitter: @schmedu_
 // Linkedin: https://www.linkedin.com/in/euffelmann/
 // Website: https://schmedu.com
-// Shortcut: cmd shift option control p
+// Shortcut: cmd shift option control d
 
 import "@johnlindquist/kit";
 
@@ -17,14 +17,11 @@ if (currentApp !== "Finder") {
     exit();
 }
 
-let currentWindow = await applescript(`
-tell application "System Events"
-    get name of window 1
-end tell
-`);
-
 let file = await getSelectedFile();
 
-await copy(file);
+// get filename
+let directory = file.split("/").slice(0, -1).join("/");
 
-notify({ title: "Copied File Path", body: file });  
+await copy(directory);
+
+notify({ title: "Copied Directory Path", body: directory });
